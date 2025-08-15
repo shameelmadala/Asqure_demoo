@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Asquare - Premier Data Science Institute</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+  --primary: #ff2f6d;
+  --primary-dark: #e0285f;
+  --primary-light: #ffd6e4;
+  --secondary: #ffeaf2;
+  --text: #222;
+  --text-light: #555;
+  --light: #f8f9fa;
+  --white: #ffffff;
+  --dark: #1a1a2e;
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  --transition: all 0.3s ease;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Nunito Sans', sans-serif;
+  color: var(--text);
+  background: var(--white);
+  line-height: 1.6;
+  overflow-x: hidden;
+  padding-top: 80px; /* Increased space for fixed header */
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+/* ENHANCED HEADER WITH ADVANCED NAVIGATION */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80px; /* Increased height */
+  background: var(--white);
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  transition: var(--transition);
+}
+
+.header.scrolled {
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(5px);
+}
+
+.header-container {
+  text-decoration: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0 10px;
+}
+
+.logo img {
+  height: 100px;
+  width: auto;
+  transition: var(--transition);
+}
+
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: var(--primary);
+  cursor: pointer;
+  padding: 5px;
+  z-index: 1001;
+}
+
+/* Enhanced Navigation */
+.nav-container {
+  display: flex;
+  align-items: center;
+}
+
+.nav-menu {
+  display: flex;
+  gap: 15px;
+  position: relative;
+}
+
+.nav-item {
+  list-style: none;
+  position: relative;
+}
+
+.nav-link {
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text);
+  position: relative;
+  padding: 10px 15px;
+  transition: var(--transition);
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.nav-link:after {
+  content: '';
+  position: absolute;
+  bottom: 5px;
+  left: 15px;
+  width: calc(100% - 30px);
+  height: 2px;
+  background: var(--primary);
+  transform: scaleX(0);
+  transition: var(--transition);
+  transform-origin: center;
+}
+
+.nav-link:hover:after,
+.nav-link.active:after {
+  transform: scaleX(1);
+}
+
+.nav-link:hover {
+  color: var(--primary);
+  background: rgba(255, 47, 109, 0.05);
+}
+
+/* Dropdown menu */
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: var(--white);
+  width: 250px;
+  border-radius: 15px;
+  box-shadow: var(--shadow);
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: var(--transition);
+  padding: 10px 0;
+}
+
+.nav-item:hover .dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-item {
+  padding: 12px 20px;
+  transition: var(--transition);
+  display: block;
+}
+
+.dropdown-item:hover {
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+.dropdown-item i {
+  margin-right: 10px;
+  width: 20px;
+  text-align: center;
+}
+
+/* CTA button in nav */
+.nav-cta {
+  margin-left: 20px;
+  background: var(--primary);
+  color: var(--white);
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-weight: 700;
+  transition: var(--transition);
+  display: inline-block;
+  box-shadow: 0 4px 15px rgba(255, 47, 109, 0.3);
+}
+
+.nav-cta:hover {
+  background: var(--primary-dark);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(255, 47, 109, 0.4);
+}
+
+/* Mobile menu styles */
+.mobile-nav-container {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 100%;
+  max-width: 400px;
+  height: 100vh;
+  background: var(--white);
+  z-index: 1001;
+  transition: var(--transition);
+  box-shadow: -5px 0 30px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile-nav-container.active {
+  right: 0;
+}
+
+.mobile-nav-header {
+  padding: 25px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+}
+
+.mobile-nav-close {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.mobile-nav-menu {
+  padding: 20px;
+}
+
+.mobile-nav-item {
+  margin-bottom: 5px;
+}
+
+.mobile-nav-link {
+  display: block;
+  padding: 15px 20px;
+  border-radius: 10px;
+  font-weight: 700;
+  color: var(--text);
+  transition: var(--transition);
+  position: relative;
+}
+
+.mobile-nav-link.active,
+.mobile-nav-link:hover {
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+.mobile-dropdown-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mobile-dropdown-toggle i {
+  transition: var(--transition);
+}
+
+.mobile-dropdown-toggle.active i {
+  transform: rotate(180deg);
+}
+
+.mobile-dropdown {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+  background: rgba(255, 47, 109, 0.05);
+  border-radius: 10px;
+  margin-top: 5px;
+}
+
+.mobile-dropdown.active {
+  max-height: 500px;
+}
+
+.mobile-dropdown-item {
+  padding: 12px 20px 12px 40px;
+  display: block;
+  transition: var(--transition);
+}
+
+.mobile-dropdown-item:hover {
+  color: var(--primary);
+  background: rgba(255, 47, 109, 0.1);
+}
+
+.mobile-nav-footer {
+  margin-top: auto;
+  padding: 30px 20px;
+  border-top: 1px solid #eee;
+  text-align: center;
+}
+
+.mobile-nav-cta {
+  display: block;
+  width: 100%;
+  background: var(--primary);
+  color: var(--white);
+  padding: 15px;
+  border-radius: 30px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.mobile-nav-social {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.mobile-nav-social a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: var(--light);
+  color: var(--primary);
+  font-size: 18px;
+  transition: var(--transition);
+}
+
+.mobile-nav-social a:hover {
+  background: var(--primary);
+  color: var(--white);
+  transform: translateY(-3px);
+}
+
+/* Overlay for mobile menu */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: var(--transition);
+}
+
+.overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Hero Section */
+.hero {
+  padding: 100px 0 60px; /* Adjusted padding for fixed header */
+  background: linear-gradient(135deg, var(--secondary) 0%, var(--white) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -100px;
+  right: -100px;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: rgba(255, 47, 109, 0.05);
+}
+
+.hero-content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 40px;
+}
+
+.hero-text {
+  flex: 1;
+  min-width: 300px;
+}
+
+.hero-badge {
+  display: inline-block;
+  background: var(--primary-light);
+  color: var(--primary);
+  padding: 8px 20px;
+  border-radius: 30px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+}
+
+.hero-title {
+  font-size: 2.8rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--primary);
+  margin-bottom: 20px;
+}
+
+.hero-subtitle {
+  font-size: 1.1rem;
+  color: var(--text-light);
+  margin-bottom: 30px;
+  max-width: 600px;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.hero-image {
+  flex: 1;
+  min-width: 300px;
+  position: relative;
+}
+
+.hero-image img {
+  width: 100%;
+  border-radius: 15px;
+  box-shadow: var(--shadow);
+  transform: rotate(-2deg);
+  transition: var(--transition);
+}
+
+.hero-image:hover img {
+  transform: rotate(0) scale(1.02);
+}
+
+/* Button Styles */
+.btn {
+  display: inline-block;
+  padding: 12px 28px;
+  background: var(--primary);
+  color: var(--white);
+  border-radius: 30px;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition);
+  border: none;
+  box-shadow: 0 4px 15px rgba(255, 47, 109, 0.3);
+}
+
+.btn:hover {
+  background: var(--primary-dark);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(255, 47, 109, 0.4);
+}
+
+.btn-outline {
+  background: transparent;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  box-shadow: none;
+}
+
+.btn-outline:hover {
+  background: var(--primary);
+  color: var(--white);
+}
+
+/* Section Styles */
+.section {
+  padding: 80px 0;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--primary);
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.section-title::after {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 4px;
+  background: var(--primary);
+  margin: 15px auto 25px;
+  border-radius: 2px;
+}
+
+.section-subtitle {
+  text-align: center;
+  color: var(--text-light);
+  max-width: 700px;
+  margin: 0 auto 50px;
+  font-size: 1.1rem;
+}
+
+/* RESPONSIVE STYLES */
+@media (max-width: 1200px) {
+  .nav-menu {
+    gap: 10px;
+  }
+  
+  .nav-link {
+    padding: 10px 12px;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 992px) {
+  .nav-container {
+    display: none;
+  }
+  
+  .nav-toggle {
+    display: block;
+  }
+  
+  .header {
+    height: 70px;
+  }
+  
+  .hero {
+    padding: 90px 0 50px;
+  }
+  
+  .hero-title {
+    font-size: 2.2rem;
+  }
+  
+  .section {
+    padding: 60px 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 1.8rem;
+  }
+  
+  .hero-buttons {
+    flex-direction: column;
+  }
+  
+  .btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero-title {
+    font-size: 1.6rem;
+  }
+  
+  .section-title {
+    font-size: 1.8rem;
+  }
+  
+  .logo img {
+    height: 38px;
+  }
+}
+
+/* Touch enhancements */
+a, button, .btn {
+  -webkit-tap-highlight-color: transparent;
+
+}
+/* Footer Styles */
+.footer {
+  background: var(--dark);
+  color: #aaa;
+  padding: 80px 0 30px;
+  margin-top: 60px;
+  position: relative;
+  overflow: hidden;
+}
+
+.footer::before {
+  content: '';
+  position: absolute;
+  top: -100px;
+  right: -100px;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: rgba(255, 47, 109, 0.05);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 40px;
+  margin-bottom: 50px;
+  position: relative;
+  z-index: 2;
+}
+
+.footer-col {
+  padding: 20px;
+}
+
+.footer-logo {
+  margin-bottom: 25px;
+}
+
+.footer-logo img {
+  height: 50px;
+  filter: brightness(0) invert(1);
+}
+
+.footer-about {
+  margin-bottom: 25px;
+  line-height: 1.7;
+  font-size: 0.95rem;
+}
+
+.footer-title {
+  color: var(--white);
+  font-size: 1.3rem;
+  margin-bottom: 25px;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.footer-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 2px;
+  background: var(--primary);
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-link {
+  margin-bottom: 15px;
+}
+
+.footer-link a {
+  color: #aaa;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.footer-link a i {
+  color: var(--primary);
+  width: 20px;
+  text-align: center;
+}
+
+.footer-link a:hover {
+  color: var(--white);
+  transform: translateX(5px);
+}
+
+.contact-item {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+  align-items: flex-start;
+}
+
+.contact-icon {
+  color: var(--primary);
+  margin-top: 5px;
+  font-size: 18px;
+  min-width: 24px;
+  text-align: center;
+}
+
+.contact-info {
+  flex: 1;
+}
+
+.contact-info strong {
+  color: var(--white);
+  display: block;
+  margin-bottom: 3px;
+}
+
+.footer-social {
+  display: flex;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.social-link {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  transition: var(--transition);
+}
+
+.social-link:hover {
+  background: var(--primary);
+  transform: translateY(-5px);
+}
+
+.copyright {
+  text-align: center;
+  padding-top: 30px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.9rem;
+  position: relative;
+  z-index: 2;
+}
+
+.md-highlight {
+  color: var(--primary);
+  font-weight: 700;
+  margin-top: 10px;
+  display: block;
+}
+
+/* Responsive Footer */
+@media (max-width: 768px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  
+  .footer-title::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .footer-social {
+    justify-content: center;
+  }
+  
+  .contact-item {
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+  }
+  
+  .footer-link a {
+    justify-content: center;
+  }
+  
+  .footer-links {
+    display: inline-block;
+    text-align: left;
+  }}
+</style>
+</head>
+<body>
+
+<!-- Fixed Header with Enhanced Navigation -->
+<header class="header" id="header">
+  <div class="container header-container">
+    <div class="logo">
+      <img src="/image/Asquare logo-01.png" alt="Asquare Technologies">
+    </div>
+    
+    <div class="nav-container">
+      <ul class="nav-menu">
+        <li class="nav-item">
+          <a href="#" class="nav-link active">Home</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">Placements</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            Courses
+            <i class="fas fa-chevron-down"></i>
+          </a>
+          <div class="dropdown">
+            <a href="#" class="dropdown-item">
+              <i class="fas fa-brain"></i> Data Science
+            </a>
+            <a href="#" class="dropdown-item">
+              <i class="fas fa-chart-line"></i> Business Analytics
+            </a>
+            <a href="#" class="dropdown-item">
+              <i class="fas fa-robot"></i> AI & Machine Learning
+            </a>
+            <a href="#" class="dropdown-item">
+              <i class="fab fa-python"></i> Python Programming
+            </a>
+            <a href="#" class="dropdown-item">
+              <i class="fas fa-chart-bar"></i> Power BI
+            </a>
+            <a href="#" class="dropdown-item">
+              <i class="fas fa-chart-pie"></i> Tableau
+            </a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">About Us</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">Contact</a>
+        </li>
+      </ul>
+      
+      <a href="#" class="nav-cta">Enroll Now</a>
+    </div>
+    
+    <button class="nav-toggle" id="navToggle">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+</header>
+
+<!-- Mobile Navigation Panel -->
+<div class="mobile-nav-container" id="mobileNav">
+  <div class="mobile-nav-header">
+    <div class="logo">
+      <img src="/image/Asquare logo-01.png" alt="Asquare Technologies" height="35">
+    </div>
+    <button class="mobile-nav-close" id="mobileNavClose">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+  
+  <div class="mobile-nav-menu">
+    <ul>
+      <li class="mobile-nav-item">
+        <a href="#" class="mobile-nav-link active">Home</a>
+      </li>
+      <li class="mobile-nav-item">
+        <a href="#" class="mobile-nav-link">Dashboard</a>
+      </li>
+      <li class="mobile-nav-item">
+        <a href="#" class="mobile-nav-link">Placements</a>
+      </li>
+      <li class="mobile-nav-item">
+        <a href="#" class="mobile-nav-link mobile-dropdown-toggle">
+          <span>Courses</span>
+          <i class="fas fa-chevron-down"></i>
+        </a>
+        <div class="mobile-dropdown">
+          <a href="#" class="mobile-dropdown-item">Data Science</a>
+          <a href="#" class="mobile-dropdown-item">Business Analytics</a>
+          <a href="#" class="mobile-dropdown-item">AI & Machine Learning</a>
+          <a href="#" class="mobile-dropdown-item">Python Programming</a>
+          <a href="#" class="mobile-dropdown-item">Power BI</a>
+          <a href="#" class="mobile-dropdown-item">Tableau</a>
+        </div>
+      </li>
+      <li class="mobile-nav-item">
+        <a href="#" class="mobile-nav-link">About Us</a>
+      </li>
+      <li class="mobile-nav-item">
+        <a href="#" class="mobile-nav-link">Blog</a>
+      </li>
+      <li class="mobile-nav-item">
+        <a href="#" class="mobile-nav-link">Contact</a>
+      </li>
+    </ul>
+  </div>
+  
+  <div class="mobile-nav-footer">
+    <a href="#" class="mobile-nav-cta">Enroll Now</a>
+    <div class="mobile-nav-social">
+      <a href="#"><i class="fab fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-linkedin-in"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+    </div>
+  </div>
+</div>
+
+<!-- Overlay for mobile menu -->
+<div class="overlay" id="overlay"></div>
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-text">
+        <span class="hero-badge">Build a Smarter Career with Us</span>
+        <h1 class="hero-title">Best Data Science Training Institute in Kochi</h1>
+        <p class="hero-subtitle">Our diploma certification programs are affiliated with the STED Council, ensuring credibility and nationwide recognition. Empower your career with future-ready skills and hands-on learning designed to bridge the gap between education and employment.</p>
+        <div class="hero-buttons">
+          <a href="#" class="btn">Placement Partners</a>
+          <a href="#" class="btn btn-outline">View Courses</a>
+        </div>
+      </div>
+      
+      <div class="hero-image">
+        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Data Science Training">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Why Choose Asquare?</h2>
+    <p class="section-subtitle">We provide comprehensive training and career support to help you succeed</p>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-bottom: 50px;">
+      <div style="background: var(--white); border-radius: 15px; padding: 30px; box-shadow: var(--shadow); transition: var(--transition); text-align: center;">
+        <div style="width: 70px; height: 70px; background: var(--primary-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; color: var(--primary); font-size: 1.8rem;">
+          <i class="fas fa-certificate"></i>
+        </div>
+        <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 15px; color: var(--text);">STED Certified</h3>
+        <p style="color: var(--text-light); font-size: 0.95rem;">Our diploma programs are affiliated with STED Council for nationwide recognition and credibility.</p>
+      </div>
+      
+      <div style="background: var(--white); border-radius: 15px; padding: 30px; box-shadow: var(--shadow); transition: var(--transition); text-align: center;">
+        <div style="width: 70px; height: 70px; background: var(--primary-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; color: var(--primary); font-size: 1.8rem;">
+          <i class="fas fa-chalkboard-teacher"></i>
+        </div>
+        <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 15px; color: var(--text);">Expert Trainers</h3>
+        <p style="color: var(--text-light); font-size: 0.95rem;">Learn from industry professionals with real-world experience in data science and analytics.</p>
+      </div>
+      
+      <div style="background: var(--white); border-radius: 15px; padding: 30px; box-shadow: var(--shadow); transition: var(--transition); text-align: center;">
+        <div style="width: 70px; height: 70px; background: var(--primary-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; color: var(--primary); font-size: 1.8rem;">
+          <i class="fas fa-briefcase"></i>
+        </div>
+        <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 15px; color: var(--text);">100% Placement</h3>
+        <p style="color: var(--text-light); font-size: 0.95rem;">Dedicated placement support with mock interviews and resume building assistance.</p>
+      </div>
+      
+      <div style="background: var(--white); border-radius: 15px; padding: 30px; box-shadow: var(--shadow); transition: var(--transition); text-align: center;">
+        <div style="width: 70px; height: 70px; background: var(--primary-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; color: var(--primary); font-size: 1.8rem;">
+          <i class="fas fa-laptop-code"></i>
+        </div>
+        <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 15px; color: var(--text);">Hands-on Projects</h3>
+        <p style="color: var(--text-light); font-size: 0.95rem;">Work on real-world projects to build a strong portfolio that impresses employers.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Placements Section -->
+<section class="section" style="background: var(--light); padding: 80px 0;">
+  <div class="container">
+    <h2 class="section-title">Our Successful Placements</h2>
+    <p class="section-subtitle">Our students have secured positions in top companies across India and abroad</p>
+    
+    <div style="display: flex; overflow-x: auto; gap: 30px; padding: 20px 0; scroll-snap-type: x mandatory; scroll-behavior: smooth;">
+      <div style="min-width: 280px; background: var(--white); border-radius: 15px; padding: 30px; box-shadow: var(--shadow); scroll-snap-align: start; text-align: center; position: relative; overflow: hidden;">
+        <img src="image/jyothi_edited-300x300.webp" alt="Athira Krishna" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid var(--white); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); margin-bottom: 20px;">
+        <h4 style="font-weight: 700; font-size: 1.1rem; margin-bottom: 5px;">Athira Krishna</h4>
+        <p style="color: var(--primary); font-weight: 600; font-size: 0.95rem;">Data Scientist @ IBM</p>
+      </div>
+      
+      <div style="min-width: 280px; background: var(--white); border-radius: 15px; padding: 30px; box-shadow: var(--shadow); scroll-snap-align: start; text-align: center; position: relative; overflow: hidden;">
+        <img src="image/amal-1-281x300.webp" alt="Mallesh HG" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid var(--white); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); margin-bottom: 20px;">
+        <h4 style="font-weight: 700; font-size: 1.1rem; margin-bottom: 5px;">Mallesh HG</h4>
+        <p style="color: var(--primary); font-weight: 600; font-size: 0.95rem;">Business Analyst @ Amazon</p>
+      </div>
+      
+      <div style="min-width: 280px; background: var(--white); border-radius: 15px; padding: 30px; box-shadow: var(--shadow); scroll-snap-align: start; text-align: center; position: relative; overflow: hidden;">
+        <img src="image/sujith_edited-300x300.webp" alt="Varun CV" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid var(--white); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); margin-bottom: 20px;">
+        <h4 style="font-weight: 700; font-size: 1.1rem; margin-bottom: 5px;">Varun CV</h4>
+        <p style="color: var(--primary); font-weight: 600; font-size: 0.95rem;">AI Engineer @ Microsoft</p>
+      </div>
+      
+      <div style="min-width: 280px; background: var(--white); border-radius: 15px; padding: 30px; box-shadow: var(--shadow); scroll-snap-align: start; text-align: center; position: relative; overflow: hidden;">
+        <img src="image/jyothi_edited-300x300.webp" alt="Roji Thankachan" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid var(--white); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); margin-bottom: 20px;">
+        <h4 style="font-weight: 700; font-size: 1.1rem; margin-bottom: 5px;">Roji Thankachan</h4>
+        <p style="color: var(--primary); font-weight: 600; font-size: 0.95rem;">Data Analyst @ Google</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Courses Section -->
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Our Featured Courses</h2>
+    <p class="section-subtitle">Industry-relevant programs designed to launch your data science career</p>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px;">
+      <div style="background: var(--white); border-radius: 15px; overflow: hidden; box-shadow: var(--shadow); transition: var(--transition); position: relative;">
+        <div style="position: absolute; top: 15px; right: 15px; background: var(--primary); color: var(--white); padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; z-index: 2;">Popular</div>
+        <img src="image/power-bi-590x430.webp" alt="Generative AI" style="width: 100%; height: 200px; object-fit: cover; transition: var(--transition);">
+        <div style="padding: 20px;">
+          <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 10px;">Generative AI</h3>
+          <p style="color: var(--text-light); margin-bottom: 15px; font-size: 0.95rem;">Master the latest AI technologies to create innovative solutions.</p>
+          <div style="display: flex; justify-content: space-between; color: var(--primary); font-weight: 600; font-size: 0.9rem; padding-top: 15px; border-top: 1px solid #eee;">
+            <span><i class="far fa-clock"></i> 8 Weeks</span>
+            <span><i class="far fa-certificate"></i> Diploma</span>
+          </div>
+        </div>
+      </div>
+      
+      <div style="background: var(--white); border-radius: 15px; overflow: hidden; box-shadow: var(--shadow); transition: var(--transition); position: relative;">
+        <img src="image/data-science-new-banner-590x430.webp" alt="Python Programming" style="width: 100%; height: 200px; object-fit: cover; transition: var(--transition);">
+        <div style="padding: 20px;">
+          <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 10px;">Certificate in Python Programming</h3>
+          <p style="color: var(--text-light); margin-bottom: 15px; font-size: 0.95rem;">Learn Python from basics to advanced data manipulation.</p>
+          <div style="display: flex; justify-content: space-between; color: var(--primary); font-weight: 600; font-size: 0.9rem; padding-top: 15px; border-top: 1px solid #eee;">
+            <span><i class="far fa-clock"></i> 6 Weeks</span>
+            <span><i class="far fa-certificate"></i> Certificate</span>
+          </div>
+        </div>
+      </div>
+      
+      <div style="background: var(--white); border-radius: 15px; overflow: hidden; box-shadow: var(--shadow); transition: var(--transition); position: relative;">
+        <div style="position: absolute; top: 15px; right: 15px; background: var(--primary); color: var(--white); padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; z-index: 2;">Best Seller</div>
+        <img src="image/Googles-AI-Fundamentals-Applications-focuses-on-Research-590x430.webp" alt="Data Science" style="width: 100%; height: 200px; object-fit: cover; transition: var(--transition);">
+        <div style="padding: 20px;">
+          <h3 style="font-size: 1.3rem; font-weight: 700; margin-bottom: 10px;">Professional Diploma in Data Science</h3>
+          <p style="color: var(--text-light); margin-bottom: 15px; font-size: 0.95rem;">Comprehensive training in data analysis, visualization, and machine learning.</p>
+          <div style="display: flex; justify-content: space-between; color: var(--primary); font-weight: 600; font-size: 0.9rem; padding-top: 15px; border-top: 1px solid #eee;">
+            <span><i class="far fa-clock"></i> 6 Months</span>
+            <span><i class="far fa-certificate"></i> Diploma</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="section" style="background: linear-gradient(to bottom, #fff5f9, #ffffff); padding: 80px 0;">
+  <div class="container">
+    <h2 class="section-title">Student Success Stories</h2>
+    <p class="section-subtitle">Hear what our alumni have to say about their journey</p>
+    
+    <div style="max-width: 800px; margin: 0 auto; position: relative;">
+      <div style="background: var(--white); padding: 40px; border-radius: 20px; box-shadow: var(--shadow); text-align: center; position: relative;">
+        <p style="font-size: 1.1rem; color: var(--text); margin-bottom: 25px; font-style: italic; position: relative; z-index: 2;">
+          "The hands-on approach at Asquare Technologies gave me the confidence to tackle real-world data challenges. The instructors are industry experts who genuinely care about your success. Within two months of completing the course, I secured a position as a Data Analyst at a leading tech firm."
+        </p>
+        <div style="display: flex; align-items: center; justify-content: center; gap: 15px;">
+          <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" alt="Ananya Sharma" style="width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 3px solid var(--white); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);">
+          <div>
+            <h4 style="font-size: 1.2rem; margin-bottom: 5px;">Ananya Sharma</h4>
+            <p style="color: var(--primary); font-weight: 600; font-size: 0.95rem;">Data Analyst @ Tech Solutions Inc.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="footer-logo">
+          <img src="https://via.placeholder.com/150x50?text=Asquare+Logo" alt="Asquare Technologies">
+        </div>
+        <p class="footer-about">
+          Asquare Technologies is the premier data science training institute in Kochi, providing industry-relevant programs to empower your career with future-ready skills.
+        </p>
+        <div class="footer-social">
+          <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+      
+      <div class="footer-col">
+        <h3 class="footer-title">Quick Links</h3>
+        <ul class="footer-links">
+          <li class="footer-link"><a href="#"><i class="fas fa-chevron-right"></i> Home</a></li>
+          <li class="footer-link"><a href="#"><i class="fas fa-chevron-right"></i> About Us</a></li>
+          <li class="footer-link"><a href="#"><i class="fas fa-chevron-right"></i> Courses</a></li>
+          <li class="footer-link"><a href="#"><i class="fas fa-chevron-right"></i> Placements</a></li>
+          <li class="footer-link"><a href="#"><i class="fas fa-chevron-right"></i> Blog</a></li>
+          <li class="footer-link"><a href="#"><i class="fas fa-chevron-right"></i> Contact</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-col">
+        <h3 class="footer-title">Our Courses</h3>
+        <ul class="footer-links">
+          <li class="footer-link"><a href="#"><i class="fas fa-brain"></i> Data Science</a></li>
+          <li class="footer-link"><a href="#"><i class="fas fa-chart-line"></i> Business Analytics</a></li>
+          <li class="footer-link"><a href="#"><i class="fas fa-robot"></i> AI & Machine Learning</a></li>
+          <li class="footer-link"><a href="#"><i class="fab fa-python"></i> Python Programming</a></li>
+          <li class="footer-link"><a href="#"><i class="fas fa-chart-bar"></i> Power BI</a></li>
+          <li class="footer-link"><a href="#"><i class="fas fa-chart-pie"></i> Tableau</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-col">
+        <h3 class="footer-title">Contact Us</h3>
+        <div class="contact-item">
+          <div class="contact-icon">
+            <i class="fas fa-map-marker-alt"></i>
+          </div>
+          <div class="contact-info">
+            <strong>MG Road Branch</strong>
+            <div>Asquare Technologies, MG Road, Kochi, Kerala 682016</div>
+          </div>
+        </div>
+        
+        <div class="contact-item">
+          <div class="contact-icon">
+            <i class="fas fa-map-marker-alt"></i>
+          </div>
+          <div class="contact-info">
+            <strong>Kakkanad Branch</strong>
+            <div>Asquare Technologies, Kakkanad, Kochi, Kerala 682030</div>
+          </div>
+        </div>
+        
+        <div class="contact-item">
+          <div class="contact-icon">
+            <i class="fas fa-phone-alt"></i>
+          </div>
+          <div class="contact-info">
+            <strong>Phone</strong>
+            <div>+91 98765 43210</div>
+          </div>
+        </div>
+        
+        <div class="contact-item">
+          <div class="contact-icon">
+            <i class="fas fa-envelope"></i>
+          </div>
+          <div class="contact-info">
+            <strong>Email</strong>
+            <div>info@asquaretech.com</div>
+          </div>
+        </div>
+        
+        <div class="contact-item">
+          <div class="contact-icon">
+            <i class="fas fa-user-tie"></i>
+          </div>
+          <div class="contact-info">
+            <strong>Managing Director</strong>
+            <div>Ashik VM</div>
+            <span class="md-highlight">MD of Asquare Technologies</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="copyright">
+      &copy; 2025 Asquare Technologies. All rights reserved. | Designed with ❤️ for Future Data Scientists
+    </div>
+  </div>
+</footer>
+
+
+
+
+<script>
+// Mobile Navigation Toggle
+const navToggle = document.getElementById('navToggle');
+const mobileNav = document.getElementById('mobileNav');
+const mobileNavClose = document.getElementById('mobileNavClose');
+const overlay = document.getElementById('overlay');
+
+navToggle.addEventListener('click', () => {
+  mobileNav.classList.add('active');
+  overlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+});
+
+mobileNavClose.addEventListener('click', () => {
+  mobileNav.classList.remove('active');
+  overlay.classList.remove('active');
+  document.body.style.overflow = '';
+});
+
+overlay.addEventListener('click', () => {
+  mobileNav.classList.remove('active');
+  overlay.classList.remove('active');
+  document.body.style.overflow = '';
+});
+
+// Mobile dropdown functionality
+const dropdownToggles = document.querySelectorAll('.mobile-dropdown-toggle');
+dropdownToggles.forEach(toggle => {
+  toggle.addEventListener('click', function(e) {
+    e.preventDefault();
+    const dropdown = this.nextElementSibling;
+    
+    // Close all other dropdowns
+    document.querySelectorAll('.mobile-dropdown').forEach(d => {
+      if (d !== dropdown) {
+        d.classList.remove('active');
+        d.previousElementSibling.classList.remove('active');
+      }
+    });
+    
+    // Toggle current dropdown
+    this.classList.toggle('active');
+    dropdown.classList.toggle('active');
+  });
+});
+
+// Sticky Header
+window.addEventListener('scroll', () => {
+  const header = document.getElementById('header');
+  if (window.scrollY > 50) {
+    header.classList.add('scrolled');
+  } else {
+    header.classList.remove('scrolled');
+  }
+});
+
+// Close dropdowns when clicking outside
+document.addEventListener('click', function(e) {
+  const dropdowns = document.querySelectorAll('.dropdown');
+  dropdowns.forEach(dropdown => {
+    if (!dropdown.contains(e.target) && 
+        !dropdown.previousElementSibling.contains(e.target)) {
+      dropdown.style.opacity = '0';
+      dropdown.style.visibility = 'hidden';
+      dropdown.style.transform = 'translateY(10px)';
+    }
+  });
+});
+</script>
+
+</body>
+</html>
